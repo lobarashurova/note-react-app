@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-
-const Header = () => (
-  <header className="p-4 bg-blue-500 text-white text-center text-xl font-bold">
-    Notes App
-  </header>
-);
+import { FiEdit, FiTrash, FiPlus } from "react-icons/fi";
+import "./App.css";
 
 const NoteForm = ({ addNote, editNote, currentNote, setCurrentNote }) => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
-  useState(() => {
+  React.useEffect(() => {
     if (currentNote) {
       setTitle(currentNote.title);
       setText(currentNote.text);
+      setShowForm(true);
     }
   }, [currentNote]);
 
@@ -27,29 +25,37 @@ const NoteForm = ({ addNote, editNote, currentNote, setCurrentNote }) => {
     setTitle("");
     setText("");
     setCurrentNote(null);
+    setShowForm(false);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4">
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="block w-full p-2 border border-gray-300 rounded mb-2"
-        required
-      />
-      <textarea
-        placeholder="Text"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        className="block w-full p-2 border border-gray-300 rounded mb-2"
-        required
-      ></textarea>
-      <button type="submit" className="bg-green-500 text-white p-2 rounded w-full">
-        {currentNote ? "Edit Note" : "Add Note"}
+    <div className="form-container">
+      <button onClick={() => setShowForm(!showForm)} className="add-btn">
+        <FiPlus size={24} />
       </button>
-    </form>
+      {showForm && (
+        <form onSubmit={handleSubmit} className="note-form">
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="input"
+            required
+          />
+          <textarea
+            placeholder="Description"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className="textarea"
+            required
+          ></textarea>
+          <button type="submit" className="save-btn">
+            {currentNote ? "Edit Note" : "Save Note"}
+          </button>
+        </form>
+      )}
+    </div>
   );
 };
 
@@ -57,31 +63,37 @@ const NoteItem = ({ note, deleteNote, selectNote }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="p-4 border border-gray-300 rounded mb-2 cursor-pointer">
-      <h3 className="font-bold" onClick={() => setExpanded(!expanded)}>
-        {note.title}
-      </h3>
-      {expanded ? (
-        <p>{note.text}</p>
-      ) : (
-        <p className="text-gray-500">{note.text.substring(0, 30)}...</p>
-      )}
-      <div className="flex gap-2 mt-2">
-        <button onClick={() => selectNote(note)} className="text-blue-500">Edit</button>
-        <button onClick={() => deleteNote(note.id)} className="text-red-500">Delete</button>
+    <div className="note-card">
+      <div className="note-header">
+        <h3 className="note-title" onClick={() => setExpanded(!expanded)}>
+          {note.title}
+        </h3>
+        <div className="icons">
+          <button onClick={() => selectNote(note)} className="edit-icon">
+            <FiEdit size={18} />
+          </button>
+          <button onClick={() => deleteNote(note.id)} className="delete-icon">
+            <FiTrash size={18} />
+          </button>
+        </div>
       </div>
+      {expanded ? (
+        <p className="note-text">{note.text}</p>
+      ) : (
+        <p className="note-preview">{note.text.substring(0, 30)}...</p>
+      )}
     </div>
   );
 };
 
 const NoteList = ({ notes, deleteNote, selectNote }) => (
-  <div className="p-4">
+  <div className="notes-container">
     {notes.length > 0 ? (
       notes.map((note) => (
         <NoteItem key={note.id} note={note} deleteNote={deleteNote} selectNote={selectNote} />
       ))
     ) : (
-      <p className="text-center text-gray-500">No notes available.</p>
+      <p className="no-notes">No notes available.</p>
     )}
   </div>
 );
@@ -103,15 +115,10 @@ const App = () => {
     setNotes(notes.filter((note) => note.id !== id));
   };
 
-  const selectNote = (note) => {
-    setCurrentNote(note);
-  };
-
   return (
-    <div className="max-w-lg mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
-      <Header />
+    <div className="app-container">
       <NoteForm addNote={addNote} editNote={editNote} currentNote={currentNote} setCurrentNote={setCurrentNote} />
-      <NoteList notes={notes} deleteNote={deleteNote} selectNote={selectNote} />
+      <NoteList notes={notes} deleteNote={deleteNote} selectNote={setCurrentNote} />
     </div>
   );
 };

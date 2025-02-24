@@ -1,38 +1,136 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  color: white;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.app-container {
+  width: 400px;
+  background: #0014ff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.add-btn {
+  width: 50px;
+  height: 50px;
+  background: #ff2cdf;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 24px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-btn:hover {
+  background: #ff5a9e;
+}
+
+.note-form {
+  margin-top: 10px;
+  padding: 10px;
+  background: #000;
+  border-radius: 5px;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 10px;
+  background: #ff2cdf;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.notes-container {
+  margin-top: 15px;
+}
+
+.note-card {
+  padding: 10px;
+  background: #ff2cdf;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+
+.note-card:hover {
+  background: #ff5a9e;
+}
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-title {
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.note-text {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.note-preview {
+  color: white;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.icons {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-icon,
+.delete-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.edit-icon:hover {
+  color: #0014ff;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.delete-icon:hover {
+  color: #000;
+}
+
+.no-notes {
+  text-align: center;
+  color: white;
 }
